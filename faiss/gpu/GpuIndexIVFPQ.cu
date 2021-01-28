@@ -16,6 +16,7 @@
 #include <faiss/gpu/impl/IVFPQ.cuh>
 #include <faiss/gpu/utils/CopyUtils.cuh>
 #include <faiss/gpu/utils/DeviceUtils.h>
+#include <faiss/invlists/InvertedLists.h>
 
 #include <limits>
 
@@ -432,5 +433,18 @@ GpuIndexIVFPQ::verifySettings_() const {
                      config_.device, smemPerBlock, bitsPerCode_, subQuantizers_,
                      requiredSmemSize);
 }
+
+
+
+
+
+
+
+
+void GpuIndexIVFPQ::copyInvertedListsFrom(InvertedLists* lists) {
+  index_->copyInvertedListsFrom(lists);
+}
+
+
 
 } } // namespace

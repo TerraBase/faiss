@@ -8,7 +8,6 @@
 // -*- c++ -*-
 
 #include <faiss/IndexIVFPQ.h>
-
 #include <cinttypes>
 #include <cmath>
 #include <cstdio>

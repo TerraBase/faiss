@@ -30,8 +30,8 @@ inline bool is_aligned_pointer(const void* x)
 // T should be a POV type. The default alignment is 32 for AVX
 template<class T, int A=32>
 struct AlignedTableTightAlloc {
-    T * ptr;
-    size_t numel;
+    T * ptr=nullptr;
+    size_t numel=0;
 
     AlignedTableTightAlloc(): ptr(nullptr), numel(0)
     { }
@@ -51,14 +51,15 @@ struct AlignedTableTightAlloc {
             if (ret != 0) {
                 throw std::bad_alloc();
             }
-            if (numel > 0) {
+            if (ptr and numel > 0) {
+                //memcpy(new_ptr, ptr, sizeof(T) * std::min(numel, n));
                 memcpy(new_ptr, ptr, sizeof(T) * std::min(numel, n));
             }
         } else {
             new_ptr = nullptr;
         }
         numel = n;
-        posix_memalign_free(ptr);
+        if (ptr) posix_memalign_free(ptr);
         ptr = new_ptr;
     }
 
@@ -73,12 +74,13 @@ struct AlignedTableTightAlloc {
     T & operator [] (size_t i)  {return ptr[i]; }
     T operator [] (size_t i) const {return ptr[i]; }
 
-    ~AlignedTableTightAlloc() {posix_memalign_free(ptr); }
+    ~AlignedTableTightAlloc() {posix_memalign_free(ptr); ptr=nullptr; }
 
     AlignedTableTightAlloc<T, A> & operator =
             (const AlignedTableTightAlloc<T, A> & other) {
         resize(other.numel);
-        memcpy(ptr, other.ptr, sizeof(T) * numel);
+        if (other.ptr)
+          memcpy(ptr, other.ptr, sizeof(T) * numel);
         return *this;
     }
 

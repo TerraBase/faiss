@@ -13,6 +13,7 @@
 #include <vector>
 
 namespace faiss { struct IndexIVFPQ; }
+namespace faiss { struct InvertedLists; }
 
 namespace faiss { namespace gpu {
 
@@ -126,6 +127,9 @@ class GpuIndexIVFPQ : public GpuIndexIVF {
   /// Return the vector indices contained in a particular inverted list, for
   /// debugging purposes.
   std::vector<Index::idx_t> getListIndices(int listId) const override;
+
+  // XXX(steplee) added this, which forwards the call to index_
+  void copyInvertedListsFrom(InvertedLists* lists);
 
  protected:
   /// Called from GpuIndex for add/add_with_ids
