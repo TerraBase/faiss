@@ -1,5 +1,6 @@
 # Faiss (TerraPixel changes)
   - Added `copyInvertedListsFrom()` to GpuIndexIVFPQ.
+  - Branches from the original tag v1.7.0
 
 
 # Faiss
