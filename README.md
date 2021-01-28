@@ -1,5 +1,6 @@
 # Faiss (TerraPixel changes)
   - Added `copyInvertedListsFrom()` to GpuIndexIVFPQ.
+  - Fixed bug in AlignedTableTightAlloc that led to segfault.
   - Branches from the original tag v1.7.0
 
 
