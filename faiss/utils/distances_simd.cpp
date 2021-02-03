@@ -21,16 +21,18 @@
 #include <immintrin.h>
 #endif
 
+
 #ifdef __aarch64__
 #include <arm_neon.h>
+#endif
+
+#ifdef __AVX__
+#define USE_AVX
 #endif
 
 
 namespace faiss {
 
-#ifdef __AVX__
-#define USE_AVX
-#endif
 
 
 /*********************************************************
@@ -656,6 +658,10 @@ float fvec_norm_L2sqr (const float *x, size_t d)
 void fvec_L2sqr_ny (float * dis, const float * x,
                         const float * y, size_t d, size_t ny) {
     fvec_L2sqr_ny_ref (dis, x, y, d, ny);
+}
+void fvec_inner_products_ny (float * dis, const float * x,
+                        const float * y, size_t d, size_t ny) {
+    fvec_inner_products_ny_ref (dis, x, y, d, ny);
 }
 
 float fvec_L1 (const float * x, const float * y, size_t d)
